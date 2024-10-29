@@ -75,7 +75,7 @@ export default function Contact() {
 
             <div className="flex space-x-4">
               <a 
-                href="https://www.instagram.com/seu_perfil" 
+                href="https://www.instagram.com/lina_gourmet?igsh=aTR0NXBlNG40Z2dp" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-[45px] h-[45px] bg-[#BC8ADF] rounded-full flex items-center justify-center text-white font-semibold transition hover:bg-[#A36FC1]"
@@ -83,7 +83,7 @@ export default function Contact() {
                 <FaInstagram size={20} />
                 </a>
               <a 
-                href="https://wa.me/seu_numero" 
+                href="https://wa.me/38999537197" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-[45px] h-[45px] bg-green-500 rounded-full flex items-center justify-center text-white font-semibold transition hover:bg-green-600"
