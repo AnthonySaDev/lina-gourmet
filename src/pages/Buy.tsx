@@ -145,7 +145,7 @@ export default function Buy() {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Digite seu nome" 
-                  className="min-w-[340px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
+                  className="min-w-[320px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
                 />
               </div>
 
@@ -157,7 +157,7 @@ export default function Buy() {
                   dateFormat="dd/MM/yyyy"
                   locale="pt-BR"
                   minDate={addDays(new Date(), 2)}
-                  className="min-w-[340px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
+                  className="min-w-[320px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
                   placeholderText="Selecione a data"
                 />
               </div>
@@ -168,7 +168,7 @@ export default function Buy() {
                   name="cakeSize"
                   value={formData.cakeSize}
                   onChange={handleInputChange}
-                  className="min-w-[340px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
+                  className="min-w-[320px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
                 >
                   <option value="">Escolha o tamanho (kg)</option>
                   <option value="1kg">1 kg</option>
@@ -187,7 +187,7 @@ export default function Buy() {
                   value={formData.filling}
                   onChange={handleInputChange}
                   placeholder="Escolha o recheio" 
-                  className="min-w-[340px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
+                  className="min-w-[320px] h-[45px] border border-[#482A5D] rounded-lg px-3 text-[14px]"
                 />
               </div>
             </form>
@@ -199,7 +199,7 @@ export default function Buy() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="min-w-[340px]">
+            <div className="min-w-[320px]">
               <label className="font-raleway block text-[#482A5D] font-bold mb-1">Mensagem no Bolo (Opcional)</label>
               <input 
                 type="text" 
@@ -211,7 +211,7 @@ export default function Buy() {
               />
             </div>
 
-            <div className="min-w-[340px]">
+            <div className="min-w-[320px]">
               <label className="font-raleway block text-[#482A5D] font-bold mb-1">Descrição do Bolo</label>
               <textarea 
                 name="description"
@@ -222,7 +222,7 @@ export default function Buy() {
               ></textarea>
             </div>
 
-            <div className="min-w-[340px]">
+            <div className="min-w-[320px]">
               <label className="font-raleway block text-[#482A5D] font-bold mb-1">Referência (Adicione Imagens)</label>
               <label className="w-full h-[45px] flex items-center justify-center cursor-pointer my-5 font-raleway font-semibold text-[14px] md:text-sm bg-white rounded-lg text-black px-4 md:px-5 py-2 md:py-3 shadow-[0_0_15px_5px_rgba(188,138,223,0.5)]">
                 <input 
@@ -235,7 +235,7 @@ export default function Buy() {
               </label>
             </div>
 
-            <div className="min-w-[340px]">
+            <div className="min-w-[320px]">
               <h2 className="font-semibold text-[#482A5D] mb-2">Imagens de Referência</h2>
               <div className="grid grid-cols-2 gap-2">
                 {selectedImages.map((image, index) => (
@@ -258,7 +258,7 @@ export default function Buy() {
 
             <motion.button 
               onClick={handleSubmit}
-              className="min-w-[340px] h-[45px] bg-[#482A5D] text-white font-semibold rounded-lg transition hover:bg-[#6A3B7A]"
+              className="min-w-[320px] h-[45px] bg-[#482A5D] text-white font-semibold rounded-lg transition hover:bg-[#6A3B7A]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
