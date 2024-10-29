@@ -1,23 +1,26 @@
 import React, { useState, ChangeEvent } from 'react';
-import Header from './Header';
+import Header from '../components/Header';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ptBR } from 'date-fns/locale';
 import { addDays } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 
 registerLocale('pt-BR', ptBR);
 
+type FormData = {
+  name: string;
+  deliveryDate: Date | null;
+  cakeSize: string;
+  filling: string;
+  message: string;
+  description: string;
+};
+
 export default function Buy() {
-  const [formData, setFormData] = useState<{
-    name: string;
-    deliveryDate: Date | null;
-    cakeSize: string;
-    filling: string;
-    message: string;
-    description: string;
-  }>({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     deliveryDate: null,
     cakeSize: '',
@@ -27,6 +30,7 @@ export default function Buy() {
   });
 
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -36,16 +40,20 @@ export default function Buy() {
     }
   };
 
+  const handleRemoveImage = (index: number) => {
+    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormData((prevData: FormData) => ({
       ...prevData,
       [name]: value
     }));
   };
 
   const handleDateChange = (date: Date | null) => {
-    setFormData((prevData) => ({
+    setFormData((prevData: FormData) => ({
       ...prevData,
       deliveryDate: date
     }));
@@ -63,7 +71,7 @@ export default function Buy() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name) showErrorToast("Nome é obrigatório.");
@@ -76,8 +84,24 @@ export default function Buy() {
       return;
     }
 
-    console.log('Form Data:', formData);
-    console.log('Selected Images:', selectedImages);
+    setIsSubmitting(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setFormData({
+        name: '',
+        deliveryDate: null,
+        cakeSize: '',
+        filling: '',
+        message: '',
+        description: ''
+      })
+      toast.success("Pedido enviado com sucesso!");
+    } catch (error) {
+      showErrorToast("Erro ao enviar pedido.");
+      console.log('Error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,7 +123,12 @@ export default function Buy() {
       <main className="relative z-10">
         <Header />
         <section className="flex flex-col lg:flex-row lg:items-start px-6 lg:px-[80px] lg:mt-[40px]">
-          <div className="w-full lg:w-1/2 lg:pr-6 text-center lg:text-left pb-[80px] lg:pb-0">
+          <motion.div 
+            className="w-full lg:w-1/2 lg:pr-6 text-center lg:text-left pb-[80px] lg:pb-0"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <h1 className="font-bold text-[24px] md:text-[28px] lg:text-[34px] max-w-full lg:max-w-[550px] text-[#482A5D] font-raleway">
               Faça seu pedido
             </h1>
@@ -162,9 +191,14 @@ export default function Buy() {
                 />
               </div>
             </form>
-          </div>
+          </motion.div>
 
-          <div className="w-full lg:w-1/2 md:mt-0 relative flex flex-col items-center lg:items-start lg:justify-end px-4 lg:px-0 pb-[60px] lg:ml-32 lg:pb-0 space-y-4">
+          <motion.div 
+            className="w-full lg:w-1/2 md:mt-0 relative flex flex-col items-center lg:items-start lg:justify-end px-4 lg:px-0 pb-[60px] lg:ml-32 lg:pb-0 space-y-4"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <div className="min-w-[340px]">
               <label className="font-raleway block text-[#482A5D] font-bold mb-1">Mensagem no Bolo (Opcional)</label>
               <input 
@@ -201,13 +235,38 @@ export default function Buy() {
               </label>
             </div>
 
-            <button 
+            <div className="min-w-[340px]">
+              <h2 className="font-semibold text-[#482A5D] mb-2">Imagens de Referência</h2>
+              <div className="grid grid-cols-2 gap-2">
+                {selectedImages.map((image, index) => (
+                  <div 
+                    key={index} 
+                    className="w-full h-[80px] border border-[#482A5D] rounded-lg overflow-hidden relative cursor-pointer"
+                    onClick={() => handleRemoveImage(index)}
+                    title="Clique para remover"
+                  >
+                    <img src={image} alt={`Referência ${index + 1}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+              {selectedImages.length === 0 && (
+                <p className="text-[#482A5D] text-center mt-2">
+                  Nenhuma imagem carregada. Adicione imagens de referência se desejar.
+                </p>
+              )}
+            </div>
+
+            <motion.button 
               onClick={handleSubmit}
               className="min-w-[340px] h-[45px] bg-[#482A5D] text-white font-semibold rounded-lg transition hover:bg-[#6A3B7A]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              disabled={isSubmitting}
             >
-              Enviar Pedido
-            </button>
-          </div>
+              {isSubmitting ? 'Enviando...' : 'Enviar Pedido'}
+            </motion.button>
+          </motion.div>
         </section>
       </main>
     </div>
